@@ -1,0 +1,50 @@
+# Local development stack. Credentials here are development defaults, not secrets:
+# override them through the environment, and never reuse them outside a laptop.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: aletheia
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-aletheia_local_dev}
+      POSTGRES_DB: aletheia
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aletheia -d aletheia"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    environment:
+      ALETHEIA_ENVIRONMENT: ${ALETHEIA_ENVIRONMENT:-local}
+      ALETHEIA_DATABASE_URL: postgresql+psycopg://aletheia:${POSTGRES_PASSWORD:-aletheia_local_dev}@db:5432/aletheia
+      ALETHEIA_SECRET_KEY: ${ALETHEIA_SECRET_KEY:-local-dev-only-change-me}
+      ALETHEIA_ARTIFACT_ROOT: /app/artifacts
+      ALETHEIA_LOG_JSON: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - artifacts:/app/artifacts
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=3).status == 200 else 1)"
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+volumes:
+  pgdata:
+  artifacts:

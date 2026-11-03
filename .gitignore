@@ -1,0 +1,36 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Model artifacts and datasets are never committed (ADR-015: hash-pinned, rebuilt from a script)
+artifacts/
+data/
+*.joblib
+*.pkl
+*.ubj
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# Tooling
+.freebuff/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+sbom.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
