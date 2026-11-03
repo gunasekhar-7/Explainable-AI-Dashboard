@@ -21,6 +21,7 @@ ALLOWED: dict[str, set[str]] = {
     "schemas": {"schemas", "core"},
     "reporting": {"reporting", "core", "ml", "db", "services"},
     "api": {"api", "core", "ml", "db", "services", "schemas", "reporting"},
+    "dashboard": {"dashboard", "core", "ml", "db", "services", "schemas", "reporting"},
 }
 
 

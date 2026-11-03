@@ -81,7 +81,7 @@ ignore = ["B008"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["src/aletheia/core", "src/aletheia/ml"]
+files = ["src/aletheia"]
 strict = true
 warn_unused_ignores = true
 ignore_missing_imports = true
