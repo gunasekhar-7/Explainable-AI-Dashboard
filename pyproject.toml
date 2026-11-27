@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=84.1.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -39,6 +39,7 @@ dev = [
     "ruff>=0.5",
     "mypy>=1.10",
     "pip-audit>=2.7",
+    "setuptools>=84.1.0",
 ]
 
 [tool.setuptools.packages.find]
